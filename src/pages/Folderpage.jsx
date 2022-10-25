@@ -9,20 +9,24 @@ import {
   __addContent,
   __deleteContent,
   __getContentById,
+  __updateContent,
 } from "../redux/modules/detail";
 import MyModal from "../modals/MyModal";
 
 function FolderPage() {
   const dispatch = useDispatch();
-
+  const { tags, img } = useSelector((state) => state.imgReducer);
+  const newTags = tags.join(", ");
   const params = useParams();
   const feedId = params.id;
 
-  const contentData = useSelector((state) => state.imgReducer.contents);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [tagT, setTagT] = useState("");
 
   useEffect(() => {
     dispatch(__getContentById(feedId));
-  }, [dispatch, feedId]);
+    setTagT(newTags);
+  }, [dispatch, feedId, newTags]);
 
   // const onChange = (e) => {
   //   const img = e.target.files[0];
@@ -45,6 +49,20 @@ function FolderPage() {
     setIsOpen(false);
   };
 
+  const onClickUpdate = () => {
+    setIsUpdateMode((prev) => !prev);
+    const tag = tagT.split(", ");
+
+    const payload = {
+      id: feedId,
+      tag,
+    };
+
+    if (isUpdateMode) {
+      dispatch(__updateContent(payload));
+    }
+  };
+
   const onCreate = () => {
     const newPhoto = {
       // id: Id,
@@ -57,6 +75,11 @@ function FolderPage() {
   // };
   //   dispatch(__deleteContent(con))
   // }
+
+  const tagsOnchange = (e) => {
+    const value = e.target.value;
+    setTagT(value);
+  };
 
   return (
     <Layout>
@@ -128,17 +151,36 @@ function FolderPage() {
             <FcCamera size="10px;" />
           </ImageBox>
         </Images>
-        <TagBox>
-          {contentData?.map((contents) => {
-            console.log("1111", contents);
-            return (
-              <FolderItem
-                contents={contents.userContent}
-                feedId={contents.id}
+        <div>
+          {isUpdateMode ? (
+            <>
+              <TagInput
+                maxLength={100}
+                type={"text"}
+                placeholder={"태그를 적어주세요"}
+                name="userContent"
+                value={tagT}
+                onChange={tagsOnchange}
+                required
               />
-            );
-          })}
-        </TagBox>
+              <DeleteBtn onClick={onClickUpdate}>수정완료</DeleteBtn>
+            </>
+          ) : (
+            <>
+              <Tag>{newTags}</Tag>
+              <UpdateBtn onClick={onClickUpdate}>태그수정</UpdateBtn>
+            </>
+          )}
+        </div>
+        {/* <TagBox>
+          {contentData?.contents?.data?.tags?.map((tag) => (
+            <span>{tag}</span>
+          ))}
+        </TagBox> */}
+        {/* <FolderItem
+          feedId={feedId}
+          contents={contentData?.contents?.data?.tags}
+        /> */}
       </ImgContainer>
     </Layout>
   );
@@ -401,4 +443,11 @@ const ModalInput = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const TagInput = styled.input`
+  border: 1px solid transparent;
+
+  width: 600px;
+  height: 80px;
 `;
