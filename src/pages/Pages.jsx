@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AuthPage from "./AuthPage";
+import FolderPage from "./Folderpage";
 import Home from "./Home";
 
 function Pages() {
@@ -17,6 +18,7 @@ function Pages() {
     <Routes>
       <Route path="/" element={<AuthPage />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/home/:id" element={<FolderPage />} />
     </Routes>
   );
 }

@@ -1,20 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
-<<<<<<< HEAD
-import FolderPage from "../../pages/FolderPage";
-import FolderItem from "../../pages/FolderItem";
-import Home from "../../pages/Home";
-import folderSlice from "./folderSlice";
-import ReactModal from "react-modal";
-
-ReactModal.setAppElement("#root");
-
-export default configureStore({
-  reducer: {
-    Home: Home,
-    folderSlice: folderSlice,
-=======
 import { authSlice } from "../modules/auth";
+import { imgSlice } from "../modules/detail";
 import { foldersSlice, tagsSlice } from "../modules/main";
 
 export default configureStore({
@@ -22,7 +9,7 @@ export default configureStore({
     folderReducer: foldersSlice.reducer,
     tagReducer: tagsSlice.reducer,
     authReducer: authSlice.reducer,
->>>>>>> 7bebda6289f85779f12c9c036937adab2eb93f55
+    imgReducer: imgSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== "production",

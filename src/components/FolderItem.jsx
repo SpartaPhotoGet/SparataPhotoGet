@@ -7,9 +7,9 @@ import {
   __deleteContent,
   __getContentById,
   __updateContent,
-} from "../redux/config/folderSlice";
-import DeleteSrc from "./delete.png";
-import UpdateSrc from "./update.png";
+} from "../redux/modules/detail";
+// import DeleteSrc from "./delete.png";
+// import UpdateSrc from "./update.png";
 
 function FolderItem({ contents, feedId }) {
   const dispatch = useDispatch();
@@ -244,7 +244,6 @@ const CorBtn = styled.button`
 
 // 작성된 댓글을 수정하는 버튼입니다.
 const Update = styled.img`
-  background-image: url(${UpdateSrc});
   /* border: 1px solid black; */
   margin-right: 10px;
   width: 25px;
@@ -252,7 +251,6 @@ const Update = styled.img`
 
 // 작성된 댓글을 삭제하는 버튼입니다.
 const Delete = styled.img`
-  background-image: url(${DeleteSrc});
   /* border: 1px solid transparent; */
   width: 25px;
 `;

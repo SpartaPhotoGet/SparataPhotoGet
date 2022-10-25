@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function FolderItem({ contents, feedId }) {
+function FolderModal({ contents, feedId }) {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -36,7 +36,7 @@ function FolderItem({ contents, feedId }) {
   );
 }
 
-export default FolderItem;
+export default FolderModal;
 
 // 전체 틀
 // const Container = styled.div`

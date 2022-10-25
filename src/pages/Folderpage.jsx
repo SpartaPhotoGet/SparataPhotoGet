@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
-import FolderItem from "./FolderItem";
+import FolderItem from "../components/FolderItem";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -9,7 +9,7 @@ import {
   __addContent,
   __deleteContent,
   __getContentById,
-} from "../redux/config/folderSlice";
+} from "../redux/modules/detail";
 import MyModal from "../modals/MyModal";
 
 function FolderPage() {
@@ -18,7 +18,7 @@ function FolderPage() {
   const params = useParams();
   const feedId = params.id;
 
-  const contentData = useSelector((state) => state.folderSlice.contents);
+  const contentData = useSelector((state) => state.imgReducer.contents);
 
   useEffect(() => {
     dispatch(__getContentById(feedId));

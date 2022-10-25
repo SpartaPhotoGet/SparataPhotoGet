@@ -1,21 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../../api";
 
 const initialState = {
   contents: [],
 };
 
-export const __addContent = createAsyncThunk(
-  "ADD_CONTENT",
-  async (payload, thunkAPI) => {
-    try {
-      const data = await axios.post("http://localhost:3001/contents", payload);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
-  }
-);
+// export const __addContent = createAsyncThunk(
+//   "ADD_CONTENT",
+//   async (payload, thunkAPI) => {
+//     try {
+//       const data = await api.post(`folder/${folderId}`, payload)
+//       return thunkAPI.fulfillWithValue(data.data);
+//     } catch (e) {
+//       return thunkAPI.rejectWithValue(e);
+//     }
+//   }
+// );
 
 export const __getContentById = createAsyncThunk(
   "GET_CONTENT_BY_ID",
@@ -61,23 +62,23 @@ export const __deleteContent = createAsyncThunk(
   }
 );
 
-export const folderSlice = createSlice({
-  name: "folder",
+export const imgSlice = createSlice({
+  name: "img",
   initialState,
   reducers: {},
   extraReducers: {
     // ADD
-    [__addContent.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__addContent.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.contents.push(action.payload);
-    },
-    [__addContent.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.folder = action.payload;
-    },
+    // [__addContent.pending]: (state) => {
+    //   state.isLoading = true;
+    // },
+    // [__addContent.fulfilled]: (state, action) => {
+    //   state.isLoading = false;
+    //   state.contents.push(action.payload);
+    // },
+    // [__addContent.rejected]: (state, action) => {
+    //   state.isLoading = false;
+    //   state.folder = action.payload;
+    // },
 
     // GET
     [__getContentById.fulfilled]: (state, action) => {
@@ -123,6 +124,3 @@ export const folderSlice = createSlice({
     },
   },
 });
-
-export const { addContent } = folderSlice.actions;
-export default folderSlice.reducer;
