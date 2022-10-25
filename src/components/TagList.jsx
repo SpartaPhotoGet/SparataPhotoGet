@@ -27,7 +27,9 @@ function TagList() {
       <TagsWrapper>
         <TagsTitle>내 태그 Top</TagsTitle>
         {sortMytags?.map((tag, i) => (
-          <TagName key={i}>{tag[0]}</TagName>
+          <TagName key={i}>
+            {tag[0]}: {tag[1]}
+          </TagName>
         ))}
       </TagsWrapper>
     </TagsContainer>
