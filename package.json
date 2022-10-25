@@ -18,10 +18,7 @@
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
-<<<<<<< HEAD
     "react-modal": "^3.16.1",
-=======
->>>>>>> 7bebda6289f85779f12c9c036937adab2eb93f55
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",

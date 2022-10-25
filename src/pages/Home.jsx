@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import styled from "styled-components";
-
-function Home() {
-  return <div>dd</div>;
-=======
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -54,7 +47,6 @@ function Home() {
       {isModal && <AddFolderModal onModalClick={onModalClick} />}
     </Layout>
   );
->>>>>>> 7bebda6289f85779f12c9c036937adab2eb93f55
 }
 
 export default Home;
