@@ -26,7 +26,6 @@ export const __getFolders = createAsyncThunk(
 export const __addFolder = createAsyncThunk(
   "main/addFolder",
   async (payload, thunkAPI) => {
-    console.log(payload);
     try {
       const {
         data: { data, success, error },
@@ -58,7 +57,6 @@ export const __searchFolder = createAsyncThunk(
 export const __deleteFolder = createAsyncThunk(
   "main/searchFolder",
   async (payload, thunkAPI) => {
-    console.log(payload);
     const params = { query: payload };
     try {
       const {
@@ -114,8 +112,8 @@ export const foldersSlice = createSlice({
 
     [__addFolder.pending]: pendingReducer,
     [__addFolder.fulfilled]: (state, action) => {
-      // state.folders.push(action.payload.folderName);
-      // FIXME: 리듀서 폴더 추가 반영
+      state.folders.push({ folderName: action.payload.folderName });
+      // FIXME: id값, 태그값 업데이트
       state.isLoading = false;
     },
     [__addFolder.rejected]: rejectedReducer,

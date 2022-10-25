@@ -5,12 +5,7 @@ import FolderItem from "../components/FolderItem";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  __addContent,
-  __deleteContent,
-  __getContentById,
-  __updateContent,
-} from "../redux/modules/detail";
+import { __getContentById, __updateContent } from "../redux/modules/detail";
 import MyModal from "../modals/MyModal";
 
 function FolderPage() {

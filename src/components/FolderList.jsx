@@ -5,6 +5,7 @@ import styled from "styled-components";
 import defaultStyle from "../defaultStyle";
 import { useEffect } from "react";
 import { __getFolders } from "../redux/modules/main";
+import { Link } from "react-router-dom";
 
 function FolderList({ onModalClick }) {
   const dispatch = useDispatch();
@@ -22,12 +23,14 @@ function FolderList({ onModalClick }) {
         <BsPlus className="bsPlus" size={150} />
       </IconBox>
       {folders?.map((folder) => (
-        <FolderWrapper key={folder.id}>
-          <IconBox>
-            <FcOpenedFolder size={150} />
-          </IconBox>
-          <FolderTitle>{folder.folderName}</FolderTitle>
-        </FolderWrapper>
+        <LinkStyle to={`${folder.id}`} key={folder.id}>
+          <FolderWrapper>
+            <IconBox>
+              <FcOpenedFolder size={150} />
+            </IconBox>
+            <FolderTitle>{folder.folderName}</FolderTitle>
+          </FolderWrapper>
+        </LinkStyle>
       ))}
     </FoldersContainer>
   );
@@ -44,6 +47,11 @@ const FoldersContainer = styled.div`
   grid-auto-rows: min-content;
   border: 2px dashed ${defaultStyle.color.mainColor};
   border-radius: 5px;
+`;
+
+const LinkStyle = styled(Link)`
+  color: inherit;
+  text-decoration: none;
 `;
 
 const FolderWrapper = styled.div`
