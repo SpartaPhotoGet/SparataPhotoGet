@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
+import { authSlice } from "../modules/auth";
+import { foldersSlice, tagsSlice } from "../modules/main";
 
 export default configureStore({
   reducer: {
-    a: aReducer,
-    b: bReducer,
+    folderReducer: foldersSlice.reducer,
+    tagReducer: tagsSlice.reducer,
+    authReducer: authSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== "production",
