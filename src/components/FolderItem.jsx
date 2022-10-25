@@ -14,7 +14,7 @@ import {
 function FolderItem({ contents, feedId }) {
   const dispatch = useDispatch();
 
-  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [isUpdateMode, setIsUpdateMode] = useState(true);
   const [userContent, setUserContent] = useState("");
   const [a, setA] = useState(contents);
 
@@ -40,30 +40,7 @@ function FolderItem({ contents, feedId }) {
     if (isUpdateMode) dispatch(__updateContent(payload));
   };
 
-  return (
-    <>
-      {isUpdateMode ? (
-        <TagInput
-          maxLength={100}
-          type={"text"}
-          placeholder={"태그를 적어주세요"}
-          name="userContent"
-          onChange={onChangeBody}
-          value={a}
-          required
-        />
-      ) : (
-        <Tag>{contents}</Tag>
-      )}
-      <Buttons>
-        {isUpdateMode ? (
-          <DeleteBtn onClick={cancelAndUpdateBtn}>수정완료</DeleteBtn>
-        ) : (
-          <UpdateBtn onClick={cancelAndUpdateBtn}>태그수정</UpdateBtn>
-        )}
-      </Buttons>
-    </>
-  );
+  return <></>;
 }
 
 export default FolderItem;
