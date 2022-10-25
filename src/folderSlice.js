@@ -34,13 +34,10 @@ export const __getContentById = createAsyncThunk(
 export const __updateContent = createAsyncThunk(
   "UPDATE_CONTENT",
   async (payload, thunkAPI) => {
-    console.log("페이로드값", payload.body);
     try {
       const result = await axios.patch(
         `http://localhost:3001/contents/${payload.id}`,
-        {
-          userContent: payload.body,
-        }
+        payload
       );
       return thunkAPI.fulfillWithValue(result.data);
     } catch (e) {
@@ -94,12 +91,10 @@ export const folderSlice = createSlice({
       state.isLoading = true;
     },
     [__updateContent.fulfilled]: (state, action) => {
-      console.log("콘텐트", state.contents);
-      const target = state.contents.findIndex(
-        (contents) => contents.id === action.payload.id
+      const target = state.content.findIndex(
+        (content) => content.id === action.payload.id
       );
-
-      state.contents.splice(target, 1, action.payload);
+      state.tags.splice(target, 1, action.payload);
     },
     [__updateContent.rejected]: (state, action) => {
       state.isLoading = false;

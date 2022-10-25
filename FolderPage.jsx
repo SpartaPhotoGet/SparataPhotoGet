@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
-import FolderItem from "./FolderItem";
+// import FolderItem from "./FolderItem";
 import { FcCamera } from "react-icons/fc";
+import Button from "react-bootstrap/Button";
+import Modal from "../modals/index";
+import { ModalBody } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  __addContent,
-  __deleteContent,
-  __getContentById,
-} from "../redux/config/folderSlice";
-import MyModal from "../modals/MyModal";
+import { __addContent, __getContentById } from "../redux/config/folderSlice";
 
 function FolderPage() {
   const dispatch = useDispatch();
@@ -19,57 +17,45 @@ function FolderPage() {
   const feedId = params.id;
 
   const contentData = useSelector((state) => state.folderSlice.contents);
-
+  console.log("되나?", contentData);
   useEffect(() => {
+    dispatch(__getContentById(1));
+  }, [dispatch, 1]);
+  console.log("내가아이디", feedId);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const onUpdate = (contentId) => {
     dispatch(__getContentById(feedId));
-  }, [dispatch, feedId]);
-
-  // const onChange = (e) => {
-  //   const img = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("img", img);
-  //   console.log("잘되는건가", formData);
-  //   for (const keyValue of formData) console.log("키밸류", keyValue);
-  // };
-
-  const [isOpen, setIsOpen] = useState(false);
-  const handleClick = () => {
-    setIsOpen(true);
   };
 
-  const handleModalSubmit = () => {
-    setIsOpen(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
-  const handleModalCancel = () => {
-    setIsOpen(false);
+  const onClickUpdateHandler = (e) => {
+    e.preventDefault();
+    alert("추가되었습니다");
   };
 
-  const onCreate = () => {
-    const newPhoto = {
-      // id: Id,
-    };
+  const onClickDeleteHandler = (e) => {
+    e.preventDefault();
+    alert("삭제되었습니다");
   };
-  // const deleteBtn = () => {
-  // const payload = {
-  //   id: contentId,
-  //   imageId
-  // };
-  //   dispatch(__deleteContent(con))
-  // }
+
+  // const date = new Date();
+  // const month = date.getMonth() + 1;
+  // const day = date.getDate();
 
   return (
     <Layout>
       <ImgContainer>
         <ButtonBox>
-          <Buttons className="FolderPage">
-            <UpdateBtn onClick={handleClick}>추가하기</UpdateBtn>
-            <MyModal
-              isOpen={isOpen}
-              onSubmit={handleModalSubmit}
-              onCancel={handleModalCancel}
-            />
-            <DeleteBtn>삭제하기</DeleteBtn>
+          <Buttons>
+            <UpdateBtn onClick={onClickUpdateHandler}>추가하기</UpdateBtn>
+            <DeleteBtn onClick={onClickDeleteHandler}>삭제하기</DeleteBtn>
           </Buttons>
         </ButtonBox>
         <Images>
@@ -129,21 +115,14 @@ function FolderPage() {
           </ImageBox>
         </Images>
         <TagBox>
-          {contentData?.map((contents) => {
-            console.log("1111", contents);
-            return (
-              <FolderItem
-                contents={contents.userContent}
-                feedId={contents.id}
-              />
-            );
-          })}
+          {contentData?.map((contents) => (
+            <folderItem contents={contents} feedId={feedId} />
+          ))}
         </TagBox>
       </ImgContainer>
     </Layout>
   );
 }
-
 export default FolderPage;
 
 // 전체 틀
@@ -218,12 +197,11 @@ const UpdateBtn = styled.button`
   font-size: 15px;
 
   border: 1px solid transparent;
-  border-radius: 15px;
   background-color: black;
   color: white;
 
   &:hover {
-    border: 3px solid black;
+    border: 4px solid black;
     background-color: white;
     color: black;
     font-weight: bolder;
@@ -237,12 +215,11 @@ const DeleteBtn = styled.button`
   font-size: 15px;
 
   border: 1px solid transparent;
-  border-radius: 15px;
   background-color: black;
   color: white;
 
   &:hover {
-    border: 3px solid black;
+    border: 4px solid black;
     background-color: white;
     color: black;
     font-weight: bolder;
@@ -263,9 +240,9 @@ const ImageBox = styled.div`
 
 // 태그+ 수정버튼 감싸는 div
 const TagBox = styled.div`
-  border: 1px solid transparent;
+  border: 1px solid black;
 
-  width: 800px;
+  width: 1000px;
   height: 80px;
 
   display: flex;
@@ -280,7 +257,7 @@ const TagBox = styled.div`
 const Tag = styled.div`
   border: 1px solid black;
 
-  width: 800px;
+  width: 850px;
   height: 40px;
 
   display: flex;

@@ -18,49 +18,56 @@ function FolderItem({ contents, feedId }) {
   const [userContent, setUserContent] = useState("");
   const [a, setA] = useState(contents);
 
-  console.log("값이 이거에요", a);
-
-  // const onChangeBody = (e) => {
-  //   const inputValue = e.target.value;
-  //   setA(inputValue);
-  // };
-
   const onChangeBody = (e) => {
     const inputValue = e.target.value;
     setA(inputValue);
   };
-  // .startsWith("#", "")
-  const cancelAndUpdateBtn = () => {
-    const payload = {
-      id: feedId,
-      body: a,
-    };
-    setIsUpdateMode((prev) => !prev);
 
-    if (isUpdateMode) dispatch(__updateContent(payload));
+  const cancelAndUpdateBtn = () => {
+    if (isUpdateMode) {
+      setIsUpdateMode(!isUpdateMode);
+    } else {
+      setIsUpdateMode(!isUpdateMode);
+      setUserContent(userContent);
+    }
+  };
+
+  const saveAndDeleteBtn = (contentId) => {
+    if (isUpdateMode) {
+      const payload = {
+        id: contentId,
+        userContent: a,
+      };
+
+      dispatch(__updateContent(payload));
+      dispatch(__getContentById(feedId));
+      setIsUpdateMode(!isUpdateMode);
+    } else {
+      dispatch(__deleteContent(contentId));
+    }
   };
 
   return (
     <>
       {isUpdateMode ? (
-        <TagInput
+        <Tag
           maxLength={100}
           type={"text"}
           placeholder={"태그를 적어주세요"}
           name="userContent"
           onChange={onChangeBody}
           value={a}
-          required
         />
       ) : (
-        <Tag>{contents}</Tag>
+        <Tag>{contents.userContent}</Tag>
       )}
       <Buttons>
-        {isUpdateMode ? (
-          <DeleteBtn onClick={cancelAndUpdateBtn}>수정완료</DeleteBtn>
-        ) : (
-          <UpdateBtn onClick={cancelAndUpdateBtn}>태그수정</UpdateBtn>
-        )}
+        <button onClick={() => saveAndDeleteBtn(contents.id)}>
+          {isUpdateMode ? "저장" : <DeleteBtn />}
+        </button>
+        <button onClick={cancelAndUpdateBtn}>
+          {isUpdateMode ? "취소" : <UpdateBtn />}
+        </button>
       </Buttons>
     </>
   );
@@ -145,7 +152,7 @@ const UpdateBtn = styled.button`
   border-radius: 15px;
 
   &:hover {
-    border: 3px solid black;
+    border: 4px solid black;
     background-color: white;
     color: black;
     font-weight: bolder;
@@ -164,7 +171,7 @@ const DeleteBtn = styled.button`
   border-radius: 15px;
 
   &:hover {
-    border: 3px solid black;
+    border: 4px solid black;
     background-color: white;
     color: black;
     font-weight: bolder;
@@ -198,18 +205,12 @@ const TagBox = styled.div`
 `;
 
 // 태그 적는 Box
-const TagInput = styled.input`
-  border: 1px solid transparent;
-
-  width: 600px;
-  height: 80px;
-`;
 
 const Tag = styled.div`
-  border: 1px solid transparent;
+  border: 1px solid black;
 
-  width: 600px;
-  height: 80px;
+  width: 850px;
+  height: 100px;
 
   display: flex;
   flex-direction: row;

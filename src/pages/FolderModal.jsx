@@ -1,89 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import Layout from "../components/ui/Layout";
-import FolderItem from "./FolderItem";
-import { FcCamera } from "react-icons/fc";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
-function FolderPage페이지아냐() {
-  // useEffect(() => {
-  //   dispatch(__getContentById(feedId));
-  // });
+function FolderItem({ contents, feedId }) {
+  const dispatch = useDispatch();
 
-  const onClickUpdateHandler = (e) => {
-    e.preventDefault();
-    alert("추가되었습니다");
-  };
+  const [show, setShow] = useState(false);
 
-  const onClickDeleteHandler = (e) => {
-    e.preventDefault();
-    alert("삭제되었습니다");
-  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
-    <Layout>
-      {/* <Container> */}
-      <ImgContainer>
-        <ButtonBox>
-          <Buttons>
-            <UpdateBtn onClick={onClickUpdateHandler}>추가하기</UpdateBtn>
-            <DeleteBtn onClick={onClickDeleteHandler}>삭제하기</DeleteBtn>
-          </Buttons>
-        </ButtonBox>
-        <Images>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-        </Images>
-      </ImgContainer>
-      <FolderItem />
-      {/* </Container> */}
-    </Layout>
+    <TagBox>
+      <Button variant="secondary" onClick={handleShow}>
+        태그수정
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>게시물의 태그 수정하시겠어요?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>#한강 #여의나루 #해돋이</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            수정완료
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            수정취소
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </TagBox>
   );
 }
 
-export default FolderPage페이지아냐;
+export default FolderItem;
 
 // 전체 틀
 // const Container = styled.div`
