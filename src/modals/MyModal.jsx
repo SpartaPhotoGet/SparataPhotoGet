@@ -1,26 +1,46 @@
 import { useState } from "react";
 import ReactModal from "react-modal";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { __addContent } from "../redux/modules/detail";
 
-const MyModal = ({ isOpen, onSubmit, onCancel }) => {
-  const handleClickSubmit = () => {
-    onSubmit();
-  };
+const MyModal = ({ isOpen, onSubmit, onCancel, feedId }) => {
+  // const handleClickSubmit = () => {
+  //   onSubmit();
+  // };
 
   const handleClickCancel = () => {
     onCancel();
   };
   const [imageSrc, setImageSrc] = useState("");
+  const [imgFile, setImgFile] = useState();
+  const dispatch = useDispatch();
 
-  const encodeFileToBase64 = (fileBlob) => {
+  const encodeStart = (img) => {
     const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
+    setImgFile(img);
+
+    reader.readAsDataURL(img);
+    reader.onload = (e) => {
+      setImageSrc(e.target.result);
+    };
+  };
+
+  const onFileUpload = () => {
+    if (!imgFile) {
+      alert("이미지를 선택 해주세요!!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", imgFile);
+
+    const file = {
+      id: feedId,
+      imgData: formData,
+    };
+
+    dispatch(__addContent(file));
   };
 
   return (
@@ -30,22 +50,21 @@ const MyModal = ({ isOpen, onSubmit, onCancel }) => {
           {imageSrc && <img src={imageSrc} alt={"preview-img"} />}
         </div>
 
-        <div align="center" class="input-group mb-3">
-          <label for="file">
-            <FileUp class="btn-upload">파일을 업로드해주세요</FileUp>
-          </label>
+        <div align="center" className="input-group mb-3">
+          <label htmlFor="file"></label>
           <ImgInput
             type="file"
             name="file"
             id="file"
+            accept="image/*"
             onChange={(e) => {
-              encodeFileToBase64(e.target.files[0]);
+              encodeStart(e.target.files[0]);
             }}
           />
         </div>
       </div>
       <Btns>
-        <SubmitBtn onClick={handleClickSubmit}>확인</SubmitBtn>
+        <SubmitBtn onClick={onFileUpload}>확인</SubmitBtn>
         <CancelBtn onClick={handleClickCancel}>취소</CancelBtn>
       </Btns>
     </ReactModal>
