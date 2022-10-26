@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
-import FolderItem from "../components/FolderItem";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -84,6 +83,7 @@ function FolderPage() {
             <UpdateBtn onClick={handleClick}>추가하기</UpdateBtn>
             <MyModal
               isOpen={isOpen}
+              feedId={feedId}
               onSubmit={handleModalSubmit}
               onCancel={handleModalCancel}
             />

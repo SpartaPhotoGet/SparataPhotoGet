@@ -9,17 +9,22 @@ const initialState = {
   error: null,
 };
 
-// export const __addContent = createAsyncThunk(
-//   "ADD_CONTENT",
-//   async (payload, thunkAPI) => {
-//     try {
-//       const data = await api.post(`folder/${folderId}`, payload)
-//       return thunkAPI.fulfillWithValue(data.data);
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue(e);
-//     }
-//   }
-// );
+export const __addContent = createAsyncThunk(
+  "ADD_CONTENT",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await api.post(`folder/${payload.id}`, payload.imgData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 export const __getContentById = createAsyncThunk(
   "GET_CONTENT_BY_ID",
