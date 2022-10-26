@@ -4,7 +4,7 @@ import Layout from "../components/ui/Layout";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
+import defaultStyle from "../defaultStyle";
 import {
   __addContent,
   __deleteContent,
@@ -12,12 +12,8 @@ import {
   __getContentById,
   __updateContent,
 } from "../redux/modules/detail";
-
-import { __getContentById, __updateContent } from "../redux/modules/detail";
-
 import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
-import update from "./update.png";
 
 function FolderPage({}) {
   const dispatch = useDispatch();
@@ -47,6 +43,7 @@ function FolderPage({}) {
   // };
 
   const [isOpen, setIsOpen] = useState(false);
+
   const handleClick = () => {
     setIsOpen(true);
   };
@@ -73,11 +70,10 @@ function FolderPage({}) {
     }
   };
 
-  const ClickDeleteBtn = (photos) => {
-    console.log("이미지야", photos);
+  const ClickDeleteBtn = () => {
     const payload = {
       id: feedId,
-      photos: photos[(0, 1)]?.id,
+      photos: idArr,
     };
     dispatch(__deleteImage(payload));
   };
@@ -99,6 +95,8 @@ function FolderPage({}) {
     const value = e.target.value;
     setTagT(value);
   };
+
+  const onClickImage = (e) => {};
 
   const onAddId = (e) => {
     console.log(e.target.checked);
@@ -125,17 +123,16 @@ function FolderPage({}) {
               onSubmit={handleModalSubmit}
               onCancel={handleModalCancel}
             />
-            <DeleteBtn onClick={() => ClickDeleteBtn(photos)}>
-              삭제하기
-            </DeleteBtn>
+            <DeleteBtn onClick={ClickDeleteBtn}>삭제하기</DeleteBtn>
+            <FolderDelBtn>폴더삭제</FolderDelBtn>
           </Buttons>
         </ButtonBox>
         <Images>
           {photos?.map((item) => (
             <ImageBox>
               <input type="checkbox" id={item.id} onClick={onAddId} />
-              <label for="cb1">
-                <img src={item.url} />
+              <label for="{item.id}">
+                <img src={item.photos} />
               </label>
             </ImageBox>
           ))}
@@ -152,7 +149,7 @@ function FolderPage({}) {
                 onChange={tagsOnchange}
                 required
               />
-              <DeleteBtn onClick={onClickUpdate}>수정완료</DeleteBtn>
+              <SetUpdateBtn onClick={onClickUpdate}>수정완료</SetUpdateBtn>
             </>
           ) : (
             <>
@@ -161,15 +158,6 @@ function FolderPage({}) {
             </>
           )}
         </TagBox>
-        {/* <TagBox>
-          {contentData?.contents?.data?.tags?.map((tag) => (
-            <span>{tag}</span>
-          ))}
-        </TagBox> */}
-        {/* <FolderItem
-          feedId={feedId}
-          contents={contentData?.contents?.data?.tags}
-        /> */}
         <TagCom>
           <p>
             기존 태그 수정 및 새로운 태그 추가시 태그앞에 "#" 붙여주시고 작성 및
@@ -185,21 +173,9 @@ function FolderPage({}) {
 
 export default FolderPage;
 
-// 전체 틀
-// const Container = styled.div`
-//   border: 1px solid black;
-
-//   width: 100%;
-//   height: 1300px;
-
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
 // 폴더, 버튼, 태그 다 감싼 div
 const ImgContainer = styled.div`
-  border: 1px solid #87ceeb;
+  border: 2px dashed ${defaultStyle.color.mainColor};
 
   width: 100%;
   height: 800px;
@@ -260,16 +236,33 @@ const UpdateBtn = styled.button`
   font-size: 20px;
   margin-left: 10px;
 
-  border: 1px solid transparent;
-  border-radius: 15px;
-  background-color: black;
-  color: white;
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
+  color: black;
 
-  &:hover {
+  &:focus {
     border: 3px solid black;
-    background-color: white;
-    color: black;
-    font-weight: bolder;
+    border-color: ${defaultStyle.color.mainColor};
+    /* font-weight: bolder; */
+  }
+`;
+
+// 수정완료 버튼
+const SetUpdateBtn = styled.button`
+  margin-right: 15px;
+  width: 120px;
+  height: 40px;
+  font-size: 20px;
+  margin-left: 5px;
+
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
+  color: black;
+
+  &:focus {
+    border: 3px solid black;
+    border-color: ${defaultStyle.color.mainColor};
+    /* font-weight: bolder; */
   }
 `;
 
@@ -279,23 +272,38 @@ const DeleteBtn = styled.button`
   height: 40px;
   font-size: 20px;
 
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background-color: black;
-  color: white;
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
+  color: black;
 
-  &:hover {
+  &:focus {
     border: 3px solid black;
-    background-color: white;
-    color: black;
-    font-weight: bolder;
+    border-color: ${defaultStyle.color.mainColor};
+    /* font-weight: bolder; */
+  }
+`;
+
+const FolderDelBtn = styled.button`
+  width: 120px;
+  height: 40px;
+  font-size: 20px;
+  margin-left: 15px;
+
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
+  color: black;
+
+  &:focus {
+    border: 3px solid black;
+    border-color: ${defaultStyle.color.mainColor};
+    /* font-weight: bolder; */
   }
 `;
 
 // 개인 사진
 const ImageBox = styled.div`
-  /* background-color: red; */
-  border: 1px solid black;
+  background-color: transparent;
+  border: 2px solid ${defaultStyle.color.mainColor};
 
   margin: auto;
   width: 200px;
@@ -308,7 +316,7 @@ const ImageBox = styled.div`
 
 // 태그+ 수정버튼 감싸는 div
 const TagBox = styled.div`
-  border: 1px solid transparent;
+  border: 2px solid transparent;
 
   width: 800px;
   height: 80px;
@@ -323,10 +331,10 @@ const TagBox = styled.div`
 // 태그 적는 Box
 
 const Tag = styled.div`
-  border: 1px solid teal;
-  border-radius: 10px;
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
 
-  width: 800px;
+  width: 600px;
   height: 40px;
 
   display: flex;
@@ -335,126 +343,17 @@ const Tag = styled.div`
   align-items: center;
 `;
 
-// 태그 수정을 위한 버튼입니다.
-const CorBtn = styled.button`
-  border: 1px solid transparent;
-  border-radius: 15px;
-  background-color: black;
-
-  color: white;
-  font-size: 30px;
-  margin-left: 15px;
-
-  width: 100px;
-  height: 100px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    border: 5px solid black;
-    background-color: white;
-    color: black;
-    font-weight: bolder;
-  }
-`;
-
-// 여기서부터는 modal 관련된 내용입니다
-
-// const MButtons = styled.div`
-//   border: 1px solid transparent;
-
-//   width: 600px;
-//   height: 50px;
-//   margin-top: 30px;
-
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-const MButton = styled.button`
-  width: 108px;
-  height: 40px;
-  border-radius: 5px;
-  margin-left: 12px;
-
-  background: #00462a;
-  border: #00462a;
-  text-align: center;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  color: white;
-`;
-
-const CloseButton = styled.button`
-  width: 108px;
-  height: 40px;
-  border-radius: 5px;
-  margin-left: 10px;
-
-  background: #b4b3b3;
-  border: #b4b3b3;
-  text-align: center;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  color: white;
-  margin-right: 10px;
-`;
-
-const AuthPic = styled.div`
-  width: 600px;
-  height: 350px;
-  border-radius: 5px;
-  border: 1.5px dashed #b4b3b3;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Pretendard";
-  color: #b4b3b3;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 700;
-  margin: 40px;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 600px;
-  height: 50px;
-  margin-top: 30px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  margin-bottom: 30px;
-  /* margin-right: 40px; */
-`;
-
-const ModalInput = styled.input`
-  border: 1px solid black;
-  margin-top: 40px;
-  width: 600px;
-  height: 50px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
+//태그를 넣는 input
 const TagInput = styled.input`
-  border: 1px solid transparent;
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
 
+  margin-right: 5px;
   width: 600px;
-  height: 80px;
+  height: 40px;
 `;
+
+// 태그의 부연설명이 적힌 div
 
 const TagCom = styled.div`
   border: 1px solid transparent;
@@ -470,6 +369,7 @@ const TagCom = styled.div`
   margin-bottom: 20px;
 `;
 
+// 부연설명 2번
 const Ex = styled.div`
   font-size: 30px;
 `;
