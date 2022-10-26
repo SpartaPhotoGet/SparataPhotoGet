@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import defaultStyle from "../defaultStyle";
 import {
   __deleteImage,
@@ -11,9 +11,11 @@ import {
 } from "../redux/modules/detail";
 import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
+import { __deleteFolder } from "../redux/modules/main";
 
 function FolderPage({}) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { tags, photos } = useSelector((state) => state.imgReducer);
   const newTags = tags.join(", ");
   const params = useParams();
@@ -108,6 +110,12 @@ function FolderPage({}) {
     }
   };
 
+  const onDeleteFolder = () => {
+    dispatch(__deleteFolder(feedId)).then(() => {
+      navigate("/home");
+    });
+  };
+
   return (
     <Layout>
       <ImgContainer>
@@ -121,7 +129,7 @@ function FolderPage({}) {
               onCancel={handleModalCancel}
             />
             <DeleteBtn onClick={ClickDeleteBtn}>삭제하기</DeleteBtn>
-            <FolderDelBtn>폴더삭제</FolderDelBtn>
+            <FolderDelBtn onClick={onDeleteFolder}>폴더삭제</FolderDelBtn>
           </Buttons>
         </ButtonBox>
         <Images>

@@ -6,8 +6,6 @@ import { useState } from "react";
 import { __addFolder } from "../redux/modules/main";
 import Input from "./ui/Input";
 
-// TODO: 버튼 css
-
 function AddFolderModal({ onModalClick }) {
   const [form, onChange] = useInputs({
     folderName: "",
@@ -27,13 +25,13 @@ function AddFolderModal({ onModalClick }) {
       tag: tagArr,
     };
     setTagArr([]);
-    dispatch(__addFolder(folder));
-    onModalClick();
+    dispatch(__addFolder(folder)).then(() => {
+      window.location.reload();
+    });
   };
 
   const onEnterPress = (e) => {
     if (e.key === "Enter") {
-      console.log(tagForm.tag);
       const newTag = `#${tagForm.tag}`;
       setTagArr([...tagArr, newTag]);
       resetTag();
@@ -68,8 +66,8 @@ function AddFolderModal({ onModalClick }) {
           placeholder="입력후 Enter!!"
         >
           <BadgeWrapper>
-            {tagArr.map((tag) => (
-              <TagBadge>{tag}</TagBadge>
+            {tagArr.map((tag, i) => (
+              <TagBadge key={i}>{tag}</TagBadge>
             ))}
           </BadgeWrapper>
         </Input>
