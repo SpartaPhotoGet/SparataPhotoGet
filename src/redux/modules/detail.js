@@ -133,7 +133,6 @@ export const imgSlice = createSlice({
       const targetArr = action.payload;
       for (let i = 0; i < state.photos.length; i++) {
         if (targetArr.includes(state.photos[i].id + "")) {
-          console.log(current(state.photos[i]));
           state.photos.splice(i, 1);
           i--;
         }

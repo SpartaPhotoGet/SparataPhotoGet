@@ -38,7 +38,6 @@ function Home() {
           />
           <AiOutlineSearch onClick={onSearchClick} />
         </SearchWrapper>
-        <DeleteBtn>삭제하기</DeleteBtn>
       </HomeHeaderContainer>
       <HomeContainer>
         <FolderList onModalClick={onModalClick} />
@@ -86,19 +85,6 @@ const SearchInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${defaultStyle.color.mainColor};
-  }
-`;
-
-const DeleteBtn = styled.button`
-  border: 2px solid ${defaultStyle.color.subColor};
-  background-color: inherit;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: small;
-  cursor: pointer;
-
-  &:hover {
     border-color: ${defaultStyle.color.mainColor};
   }
 `;
