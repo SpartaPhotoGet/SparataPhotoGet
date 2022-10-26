@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __addContent } from "../redux/modules/detail";
+import defaultStyle from "../defaultStyle";
 
 const MyModal = ({ isOpen, onSubmit, onCancel, feedId }) => {
   // const handleClickSubmit = () => {
@@ -65,7 +66,7 @@ const MyModal = ({ isOpen, onSubmit, onCancel, feedId }) => {
       </div>
       <Btns>
         <SubmitBtn onClick={onFileUpload}>확인</SubmitBtn>
-        <CancelBtn onClick={handleClickCancel}>취소</CancelBtn>
+        <CancelBtn onClick={() => handleClickCancel(false)}>취소</CancelBtn>
       </Btns>
     </ReactModal>
   );
@@ -86,6 +87,10 @@ const ImgInput = styled.input`
   border: 1px solid transparent;
 
   width: 300px;
+
+  &:current {
+    border: 1px solid gray;
+  }
 `;
 
 const FileUp = styled.div`
@@ -97,23 +102,37 @@ const FileUp = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+// 추가 버튼
 const SubmitBtn = styled.button`
-  border: 1px solid black;
+  border: 2px solid ${defaultStyle.color.mainColor};
   background-color: transparent;
+  border-radius: 5px;
 
   margin-right: 20px;
   width: 100px;
   height: 50px;
   font-size: 20px;
+
+  &:focus {
+    border: 3px solid black;
+    border-color: ${defaultStyle.color.subColor};
+  }
 `;
 
+// 취소 버튼
 const CancelBtn = styled.button`
-  border: 1px solid black;
-
+  border: 2px solid ${defaultStyle.color.mainColor};
+  border-radius: 5px;
   background-color: transparent;
   width: 100px;
   height: 50px;
   font-size: 20px;
+
+  &:focus {
+    border: 3px solid black;
+    border-color: ${defaultStyle.color.subColor};
+  }
 `;
 
 const Btns = styled.div`
