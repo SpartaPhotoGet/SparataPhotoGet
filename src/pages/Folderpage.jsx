@@ -4,18 +4,34 @@ import Layout from "../components/ui/Layout";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { __getContentById, __updateContent } from "../redux/modules/detail";
-import MyModal from "../modals/MyModal";
 
-function FolderPage() {
+import {
+  __addContent,
+  __deleteContent,
+  __deleteImage,
+  __getContentById,
+  __updateContent,
+} from "../redux/modules/detail";
+
+import { __getContentById, __updateContent } from "../redux/modules/detail";
+
+import MyModal from "../modals/MyModal";
+import CSS from "../pages/Checkbox.css";
+import update from "./update.png";
+
+function FolderPage({}) {
   const dispatch = useDispatch();
-  const { tags, img } = useSelector((state) => state.imgReducer);
+  const { tags, photos } = useSelector((state) => state.imgReducer);
   const newTags = tags.join(", ");
   const params = useParams();
   const feedId = params.id;
 
+  console.log(photos);
+
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [tagT, setTagT] = useState("");
+  const [imgT, setImgT] = useState("");
+  const [idArr, setIdArr] = useState([]);
 
   useEffect(() => {
     dispatch(__getContentById(feedId));
@@ -57,6 +73,15 @@ function FolderPage() {
     }
   };
 
+  const ClickDeleteBtn = (photos) => {
+    console.log("이미지야", photos);
+    const payload = {
+      id: feedId,
+      photos: photos[(0, 1)]?.id,
+    };
+    dispatch(__deleteImage(payload));
+  };
+
   const onCreate = () => {
     const newPhoto = {
       // id: Id,
@@ -75,6 +100,19 @@ function FolderPage() {
     setTagT(value);
   };
 
+  const onAddId = (e) => {
+    console.log(e.target.checked);
+    const check = e.target.checked;
+    const id = e.target.id;
+    // e.preventdefault();
+
+    if (check) {
+      setIdArr([...idArr, id]);
+    } else {
+      setIdArr(idArr.filter((boxId) => boxId !== id));
+    }
+  };
+
   return (
     <Layout>
       <ImgContainer>
@@ -87,66 +125,22 @@ function FolderPage() {
               onSubmit={handleModalSubmit}
               onCancel={handleModalCancel}
             />
-            <DeleteBtn>삭제하기</DeleteBtn>
+            <DeleteBtn onClick={() => ClickDeleteBtn(photos)}>
+              삭제하기
+            </DeleteBtn>
           </Buttons>
         </ButtonBox>
         <Images>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
-          <ImageBox>
-            <FcCamera size="10px;" />
-          </ImageBox>
+          {photos?.map((item) => (
+            <ImageBox>
+              <input type="checkbox" id={item.id} onClick={onAddId} />
+              <label for="cb1">
+                <img src={item.url} />
+              </label>
+            </ImageBox>
+          ))}
         </Images>
-        <div>
+        <TagBox>
           {isUpdateMode ? (
             <>
               <TagInput
@@ -166,7 +160,7 @@ function FolderPage() {
               <UpdateBtn onClick={onClickUpdate}>태그수정</UpdateBtn>
             </>
           )}
-        </div>
+        </TagBox>
         {/* <TagBox>
           {contentData?.contents?.data?.tags?.map((tag) => (
             <span>{tag}</span>
@@ -176,6 +170,14 @@ function FolderPage() {
           feedId={feedId}
           contents={contentData?.contents?.data?.tags}
         /> */}
+        <TagCom>
+          <p>
+            기존 태그 수정 및 새로운 태그 추가시 태그앞에 "#" 붙여주시고 작성 및
+            ","를 이용하여 구분하여 주십시오.
+          </p>
+          <br></br>
+          <Ex>예시: #한강, #여의나루, #항해99, #미니프로젝트</Ex>
+        </TagCom>
       </ImgContainer>
     </Layout>
   );
@@ -211,17 +213,20 @@ const ImgContainer = styled.div`
 
 // 이미지들이 들어있는 div
 const Images = styled.div`
-  background-color: #87ceeb;
+  /* background-color: #87ceeb; */
 
   width: 1000px;
   height: 480px;
   margin: 30px auto;
 
   display: grid;
+  grid-template-columns: repeat(5, 200px);
+  grid-auto-rows: min-content;
   grid-template-rows: repeat(3, 160px);
-  grid-template-columns: repeat(6, 160px);
+  /* grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); */
   justify-content: center;
   align-items: center;
+  white-space: normal;
 
   overflow-y: auto;
 `;
@@ -250,9 +255,10 @@ const Buttons = styled.div`
 // 추가하기 버튼
 const UpdateBtn = styled.button`
   margin-right: 15px;
-  width: 80px;
+  width: 120px;
   height: 40px;
-  font-size: 15px;
+  font-size: 20px;
+  margin-left: 10px;
 
   border: 1px solid transparent;
   border-radius: 15px;
@@ -269,12 +275,12 @@ const UpdateBtn = styled.button`
 
 // 삭제하기 버튼
 const DeleteBtn = styled.button`
-  width: 80px;
+  width: 120px;
   height: 40px;
-  font-size: 15px;
+  font-size: 20px;
 
   border: 1px solid transparent;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: black;
   color: white;
 
@@ -288,10 +294,12 @@ const DeleteBtn = styled.button`
 
 // 개인 사진
 const ImageBox = styled.div`
-  border: 1px solid transparent;
+  /* background-color: red; */
+  border: 1px solid black;
 
-  width: 170px;
-  height: 50px;
+  margin: auto;
+  width: 200px;
+  height: 160px;
 
   display: flex;
   justify-content: center;
@@ -315,7 +323,8 @@ const TagBox = styled.div`
 // 태그 적는 Box
 
 const Tag = styled.div`
-  border: 1px solid black;
+  border: 1px solid teal;
+  border-radius: 10px;
 
   width: 800px;
   height: 40px;
@@ -445,4 +454,22 @@ const TagInput = styled.input`
 
   width: 600px;
   height: 80px;
+`;
+
+const TagCom = styled.div`
+  border: 1px solid transparent;
+  font-size: 16px;
+  font-weight: 600;
+  color: red;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 20px;
+`;
+
+const Ex = styled.div`
+  font-size: 30px;
 `;
