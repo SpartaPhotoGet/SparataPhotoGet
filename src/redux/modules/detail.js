@@ -4,22 +4,22 @@ import api from "../../api";
 
 const initialState = {
   tags: [],
-  img: [],
+  photos: [],
   isLoading: false,
   error: null,
 };
 
-// export const __addContent = createAsyncThunk(
-//   "ADD_CONTENT",
-//   async (payload, thunkAPI) => {
-//     try {
-//       const data = await api.post(`folder/${folderId}`, payload)
-//       return thunkAPI.fulfillWithValue(data.data);
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue(e);
-//     }
-//   }
-// );
+export const __addImage = createAsyncThunk(
+  "ADD_IMAGE",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await api.post(`folder/${payload}`, payload);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 export const __getContentById = createAsyncThunk(
   "GET_CONTENT_BY_ID",
@@ -49,11 +49,15 @@ export const __updateContent = createAsyncThunk(
   }
 );
 
-export const __deleteContent = createAsyncThunk(
-  "DELETE_CONTENT",
+export const __deleteImage = createAsyncThunk(
+  "DELETE_IMAGE",
+
   async (payload, thunkAPI) => {
+    const arr = [1, 2, 3, 4].join(",");
+    const params = { photoId: arr };
     try {
-      await axios.delete(`folder/${payload.id}`);
+      console.log("이건뭐냐", payload);
+      await api.delete(`folder/${payload.id}`, { params });
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -76,23 +80,24 @@ export const imgSlice = createSlice({
   reducers: {},
   extraReducers: {
     // ADD
-    // [__addContent.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__addContent.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.contents.push(action.payload);
-    // },
-    // [__addContent.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.folder = action.payload;
-    // },
+    [__addImage.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__addImage.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.Imgs.push(action.payload);
+    },
+    [__addImage.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.folder = action.payload;
+    },
 
     // GET
     [__getContentById.pending]: pendingReducer,
     [__getContentById.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.tags = action.payload.tags;
-      state.img = action.payload.img;
+      state.photos = action.payload.photos;
       state.isLoading = false;
     },
     [__getContentById.rejected]: rejectedReducer,
@@ -114,19 +119,19 @@ export const imgSlice = createSlice({
     },
 
     //DELETE
-    [__deleteContent.pending]: (state) => {
+    [__deleteImage.pending]: (state) => {
       state.isLoading = true;
     },
-    [__deleteContent.fulfilled]: (state, action) => {
+    [__deleteImage.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const target = state.contents.findIndex(
-        (content) => content.id === action.payload
+      const target = state.photos.findIndex(
+        (photos) => photos.id === action.payload
       );
-      state.contents.splice(target, 1);
+      state.photos.splice(target, 1, action.payload);
     },
-    [__deleteContent.fulfilled]: (state, action) => {
+    [__deleteImage.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.folder = action.payload;
+      state.photos = action.payload;
     },
   },
 });
