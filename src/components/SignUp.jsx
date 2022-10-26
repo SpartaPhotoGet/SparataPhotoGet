@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import defaultStyle from "../defaultStyle";
 import { __signUp } from "../redux/modules/auth";
@@ -21,6 +21,7 @@ function SignUp({ onSetRegister }) {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const dispatch = useDispatch();
+  const { error, isLoading } = useSelector((state) => state.authReducer);
 
   const onChangeName = (e) => {
     const nameRegex = /^[a-z0-9]{4,10}$/;
@@ -75,8 +76,11 @@ function SignUp({ onSetRegister }) {
     };
 
     if (isName && isPassword && isPasswordConfirm) {
-      dispatch(__signUp(userInfo));
-      onSetRegister();
+      dispatch(__signUp(userInfo)).then((success) => {
+        if (success.meta.requestStatus !== "rejected") {
+          onSetRegister();
+        }
+      });
     }
   };
   return (
@@ -85,7 +89,7 @@ function SignUp({ onSetRegister }) {
       <RegisterText onClick={onSetRegister}>로그인!</RegisterText>
       <Input
         label="아이디"
-        message={nameMessage}
+        message={error?.message || nameMessage}
         onChage={onChangeName}
         value={name}
       />

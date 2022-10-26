@@ -9,11 +9,18 @@ const initialState = {
   error: null,
 };
 
-export const __addImage = createAsyncThunk(
-  "ADD_IMAGE",
+
+export const __addContent = createAsyncThunk(
+  "ADD_CONTENT",
   async (payload, thunkAPI) => {
     try {
-      const data = await api.post(`folder/${payload}`, payload);
+      const data = await api.post(`folder/${payload.id}`, payload.imgData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(data);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);

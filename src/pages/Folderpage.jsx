@@ -4,6 +4,7 @@ import Layout from "../components/ui/Layout";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+
 import {
   __addContent,
   __deleteContent,
@@ -11,6 +12,9 @@ import {
   __getContentById,
   __updateContent,
 } from "../redux/modules/detail";
+
+import { __getContentById, __updateContent } from "../redux/modules/detail";
+
 import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
 import update from "./update.png";
@@ -117,6 +121,7 @@ function FolderPage({}) {
             <UpdateBtn onClick={handleClick}>추가하기</UpdateBtn>
             <MyModal
               isOpen={isOpen}
+              feedId={feedId}
               onSubmit={handleModalSubmit}
               onCancel={handleModalCancel}
             />

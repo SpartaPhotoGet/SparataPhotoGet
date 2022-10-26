@@ -15,6 +15,8 @@ function SignIn({ onSetRegister }) {
     (state) => state.authReducer
   );
 
+  const [message, setMessage] = useState("");
+
   const onChangeName = (e) => {
     const value = e.target.value;
     setName(value);
@@ -26,6 +28,11 @@ function SignIn({ onSetRegister }) {
   };
 
   const onSignIn = () => {
+    if (!name.trim() || !password.trim()) {
+      setMessage("모든 항목을 입력해주세요");
+      return;
+    }
+
     const user = {
       userId: name,
       password,
@@ -42,7 +49,7 @@ function SignIn({ onSetRegister }) {
         label="아이디"
         value={name}
         onChage={onChangeName}
-        message={error?.message}
+        message={error?.message || message}
       />
       <Input
         label="패스워드"
