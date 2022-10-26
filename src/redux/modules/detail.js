@@ -85,18 +85,18 @@ export const imgSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // // ADD
-    // [__addImage.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__addImage.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.Imgs.push(action.payload);
-    // },
-    // [__addImage.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.folder = action.payload;
-    // },
+    // ADD
+    [__addContent.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__addContent.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.photos.push(action.payload);
+    },
+    [__addContent.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.folder = action.payload;
+    },
 
     // GET
     [__getContentById.pending]: pendingReducer,

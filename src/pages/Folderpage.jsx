@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
-import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import defaultStyle from "../defaultStyle";
 import {
-  __addContent,
-  __deleteContent,
   __deleteImage,
   __getContentById,
   __updateContent,
@@ -131,6 +128,7 @@ function FolderPage({}) {
           {photos?.map((item) => (
             <ImageBox>
               <input type="checkbox" id={item.id} onClick={onAddId} />
+
               <label for="{item.id}">
                 <img src={item.photos} />
               </label>
