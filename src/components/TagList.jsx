@@ -21,7 +21,9 @@ function TagList() {
       <TagsWrapper>
         <TagsTitle>태그 Top</TagsTitle>
         {tags?.map((tag, i) => (
-          <TagName key={i}>{tag}</TagName>
+          <TagName key={i}>
+            {i + 1}위 {tag}
+          </TagName>
         ))}
       </TagsWrapper>
       <TagsWrapper>
