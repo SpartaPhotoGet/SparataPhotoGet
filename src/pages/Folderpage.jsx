@@ -118,7 +118,6 @@ function FolderPage({}) {
       <ImgContainer>
         <ButtonBox>
           <Buttons className="FolderPage">
-            <HomeGoBtn onClick={onClickHome}>이전으로</HomeGoBtn>
             <UpdateBtn onClick={handleClick}>추가하기</UpdateBtn>
             <MyModal
               isOpen={isOpen}
@@ -306,22 +305,22 @@ const FolderDelBtn = styled.button`
 `;
 
 // home으로 가기
-const HomeGoBtn = styled.button`
-  width: 120px;
-  height: 40px;
-  font-size: 20px;
-  margin-right: 10px;
+// const HomeGoBtn = styled.button`
+//   width: 120px;
+//   height: 40px;
+//   font-size: 20px;
+//   margin-right: 10px;
 
-  border: 2px solid ${defaultStyle.color.subColor};
-  border-radius: 5px;
-  color: black;
+//   border: 2px solid ${defaultStyle.color.subColor};
+//   border-radius: 5px;
+//   color: black;
 
-  &:focus {
-    border: 3px solid black;
-    border-color: ${defaultStyle.color.mainColor};
-    /* font-weight: bolder; */
-  }
-`;
+//   &:focus {
+//     border: 3px solid black;
+//     border-color: ${defaultStyle.color.mainColor};
+//     /* font-weight: bolder; */
+//   }
+// `;
 
 // 개인 사진
 const ImageBox = styled.div`
