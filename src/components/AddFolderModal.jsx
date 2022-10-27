@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import defaultStyle, { InputDefault } from "../defaultStyle";
+import defaultStyle, { ButtonDefault, InputDefault } from "../defaultStyle";
 import { useDispatch } from "react-redux";
 import useInputs from "./useInput";
 import { useState } from "react";
 import { __addFolder } from "../redux/modules/main";
 import Input from "./ui/Input";
-
-// TODO: 버튼 css
 
 function AddFolderModal({ onModalClick }) {
   const [form, onChange] = useInputs({
@@ -32,13 +30,13 @@ function AddFolderModal({ onModalClick }) {
     };
 
     setTagArr([]);
-    dispatch(__addFolder(folder));
-    onModalClick();
+    dispatch(__addFolder(folder)).then(() => {
+      window.location.reload();
+    });
   };
 
   const onEnterPress = (e) => {
     if (e.key === "Enter") {
-      console.log(tagForm.tag);
       const newTag = `#${tagForm.tag}`;
       setTagArr([...tagArr, newTag]);
       resetTag();
@@ -58,20 +56,31 @@ function AddFolderModal({ onModalClick }) {
             onChange={onChange}
           />
         </InputWrapper>
-        <Input name="folderName" value={form.folderName} onChange={onChange} />
+        <Input
+          name="folderName"
+          label="제목"
+          value={form.folderName}
+          onChange={onChange}
+        />
         <Input
           name="tag"
+          label="태그"
+          maxLength="10"
           value={tagForm.tag}
           onChange={onChangeTag}
           onKeyPress={onEnterPress}
           placeholder="입력후 Enter!!"
         >
-          <TagBadge>{tagArr}</TagBadge>
+          <BadgeWrapper>
+            {tagArr.map((tag, i) => (
+              <TagBadge key={i}>{tag}</TagBadge>
+            ))}
+          </BadgeWrapper>
         </Input>
       </InputBox>
       <BtnBox>
-        <ModalBtn onClick={onAddClick}>추가</ModalBtn>
-        <ModalBtn onClick={onModalClick}>취소</ModalBtn>
+        <AddBtn onClick={onAddClick}>추가</AddBtn>
+        <CancleBtn onClick={onModalClick}>취소</CancleBtn>
       </BtnBox>
     </ModalContainer>
   );
@@ -141,8 +150,35 @@ const DateInput = styled.input`
 const FolderNameInput = styled(InputDefault)``;
 const TagsInput = styled(InputDefault)``;
 
-const BtnBox = styled.div``;
+const BtnBox = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 80px;
+  gap: 20px;
+`;
 
-const ModalBtn = styled.button``;
+const AddBtn = styled(ButtonDefault)`
+  width: 50%;
+`;
+const CancleBtn = styled(ButtonDefault)`
+  width: 50%;
+  background-color: #ffa494;
 
-const TagBadge = styled.span``;
+  &:hover {
+    border: 2px solid #ffa494;
+  }
+`;
+
+const BadgeWrapper = styled.div`
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+`;
+
+const TagBadge = styled.span`
+  font-size: small;
+  padding: 5px;
+  background-color: #ffefd0;
+  width: fit-content;
+  border-radius: 10px;
+`;
