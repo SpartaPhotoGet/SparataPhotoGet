@@ -25,4 +25,17 @@ export const InputDefault = styled.input`
   }
 `;
 
+export const ButtonDefault = styled.button`
+  border: 2px solid ${defaultStyle.color.subColor};
+  background-color: ${defaultStyle.color.subColor};
+  border-radius: 5px;
+  padding: 10px;
+  font-size: small;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${defaultStyle.color.mainColor};
+  }
+`;
+
 export default defaultStyle;

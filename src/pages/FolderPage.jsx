@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/ui/Layout";
-import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import defaultStyle from "../defaultStyle";
 import {
-  __addContent,
-  __deleteContent,
   __deleteImage,
   __getContentById,
   __updateContent,
 } from "../redux/modules/detail";
 import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
-
-function FolderPage({}) {
-  const navigate = useNavigate();
+import { __deleteFolder } from "../redux/modules/main";
+function FolderPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { tags, photos } = useSelector((state) => state.imgReducer);
   const newTags = tags.join(", ");
   const params = useParams();
   const feedId = params.id;
-
-  console.log(photos);
 
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [tagT, setTagT] = useState("");
@@ -100,6 +95,7 @@ function FolderPage({}) {
   const onClickHome = () => {
     navigate(`../home`);
   };
+
   const onAddId = (e) => {
     console.log(e.target.checked);
     const check = e.target.checked;
@@ -111,6 +107,13 @@ function FolderPage({}) {
     } else {
       setIdArr(idArr.filter((boxId) => boxId !== id));
     }
+  };
+
+
+  const onDeleteFolder = () => {
+    dispatch(__deleteFolder(feedId)).then(() => {
+      navigate("/home");
+    });
   };
 
   return (
@@ -126,7 +129,8 @@ function FolderPage({}) {
               onCancel={handleModalCancel}
             />
             <DeleteBtn onClick={ClickDeleteBtn}>삭제하기</DeleteBtn>
-            <FolderDelBtn>폴더삭제</FolderDelBtn>
+
+            <FolderDelBtn onClick={onDeleteFolder}>폴더삭제</FolderDelBtn>
           </Buttons>
         </ButtonBox>
         <Images>
@@ -180,7 +184,6 @@ const ImgContainer = styled.div`
   border: 2px dashed ${defaultStyle.color.mainColor};
 
   width: 100%;
-
   height: 800px;
   margin: auto;
 
@@ -286,6 +289,7 @@ const DeleteBtn = styled.button`
   }
 `;
 
+
 // 폴더 삭제 버튼
 const FolderDelBtn = styled.button`
   width: 120px;
@@ -304,6 +308,7 @@ const FolderDelBtn = styled.button`
   }
 `;
 
+
 // home으로 가기
 // const HomeGoBtn = styled.button`
 //   width: 120px;
@@ -321,6 +326,7 @@ const FolderDelBtn = styled.button`
 //     /* font-weight: bolder; */
 //   }
 // `;
+
 
 // 개인 사진
 const ImageBox = styled.div`

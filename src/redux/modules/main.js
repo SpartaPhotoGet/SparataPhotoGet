@@ -55,13 +55,12 @@ export const __searchFolder = createAsyncThunk(
 );
 
 export const __deleteFolder = createAsyncThunk(
-  "main/searchFolder",
+  "main/deleteFolder",
   async (payload, thunkAPI) => {
-    const params = { query: payload };
     try {
       const {
         data: { data, success, error },
-      } = await api.get("mainpage/search", { params });
+      } = await api.delete(`mainpage/${payload}`);
       if (success) return thunkAPI.fulfillWithValue(data);
       else throw new Error(error.message);
     } catch (e) {

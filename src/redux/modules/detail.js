@@ -85,18 +85,18 @@ export const imgSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // // ADD
-    // [__addImage.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__addImage.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.Imgs.push(action.payload);
-    // },
-    // [__addImage.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.folder = action.payload;
-    // },
+    // ADD
+    [__addContent.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__addContent.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.photos.push(action.payload);
+    },
+    [__addContent.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.folder = action.payload;
+    },
 
     // GET
     [__getContentById.pending]: pendingReducer,
@@ -133,7 +133,6 @@ export const imgSlice = createSlice({
       const targetArr = action.payload;
       for (let i = 0; i < state.photos.length; i++) {
         if (targetArr.includes(state.photos[i].id + "")) {
-          console.log(current(state.photos[i]));
           state.photos.splice(i, 1);
           i--;
         }

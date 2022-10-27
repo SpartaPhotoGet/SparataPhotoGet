@@ -77,6 +77,7 @@ function SignUp({ onSetRegister }) {
 
     if (isName && isPassword && isPasswordConfirm) {
       dispatch(__signUp(userInfo)).then((success) => {
+        console.log("then회원가입");
         if (success.meta.requestStatus !== "rejected") {
           onSetRegister();
         }
