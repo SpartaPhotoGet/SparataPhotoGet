@@ -13,7 +13,7 @@ import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
 import { __deleteFolder } from "../redux/modules/main";
 
-function FolderPage({}) {
+function FolderPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { tags, photos } = useSelector((state) => state.imgReducer);

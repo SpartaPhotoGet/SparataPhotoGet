@@ -9,7 +9,9 @@ export const __signUp = createAsyncThunk(
         data: { data, success, error },
       } = await api.post("member/signup", payload);
       if (success) return thunkAPI.fulfillWithValue(data);
-      else throw new Error(error.message);
+      else {
+        throw new Error(error.message);
+      }
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -23,6 +25,7 @@ export const __signIn = createAsyncThunk(
       const {
         data: { data, success, error },
       } = await api.post("member/login", payload);
+
       if (success) {
         return thunkAPI.fulfillWithValue(data);
       } else throw new Error(error.message);
@@ -38,6 +41,7 @@ const pendingReducer = (state) => {
 
 const rejectedReducer = (state, action) => {
   state.error = action.payload;
+  console.log(action);
   state.isLoading = false;
 };
 
