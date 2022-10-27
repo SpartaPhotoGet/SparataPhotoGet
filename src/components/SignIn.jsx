@@ -6,15 +6,11 @@ import defaultStyle from "../defaultStyle";
 import { __signIn } from "../redux/modules/auth";
 import Input from "./ui/Input";
 
-function SignIn({ onSetRegister }) {
+function SignIn({ onSetRegister, isLoading, error }) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userInfo, isLoading, error } = useSelector(
-    (state) => state.authReducer
-  );
-
   const [message, setMessage] = useState("");
 
   const onChangeName = (e) => {

@@ -5,7 +5,7 @@ import defaultStyle from "../defaultStyle";
 import { __signUp } from "../redux/modules/auth";
 import Input from "./ui/Input";
 
-function SignUp({ onSetRegister }) {
+function SignUp({ onSetRegister, error }) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -19,9 +19,7 @@ function SignUp({ onSetRegister }) {
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-
   const dispatch = useDispatch();
-  const { error, isLoading } = useSelector((state) => state.authReducer);
 
   const onChangeName = (e) => {
     const nameRegex = /^[a-z0-9]{4,10}$/;
@@ -77,7 +75,7 @@ function SignUp({ onSetRegister }) {
 
     if (isName && isPassword && isPasswordConfirm) {
       dispatch(__signUp(userInfo)).then((success) => {
-        console.log("then회원가입");
+        console.log("then!");
         if (success.meta.requestStatus !== "rejected") {
           onSetRegister();
         }

@@ -41,7 +41,6 @@ const pendingReducer = (state) => {
 
 const rejectedReducer = (state, action) => {
   state.error = action.payload;
-  console.log(action);
   state.isLoading = false;
 };
 
@@ -55,7 +54,11 @@ export const authSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearErr: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: {
     [__signUp.pending]: pendingReducer,
     [__signUp.fulfilled]: (state, action) => {
@@ -71,3 +74,4 @@ export const authSlice = createSlice({
     [__signIn.rejected]: rejectedReducer,
   },
 });
+export const { clearErr } = authSlice.actions;

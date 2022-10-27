@@ -6,7 +6,6 @@ import Home from "./Home";
 
 function Pages() {
   const token = localStorage.getItem("authorization");
-  console.log(token);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

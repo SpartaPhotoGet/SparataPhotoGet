@@ -2,6 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import SignUp from "../components/SignUp";
 import SignIn from "../components/SignIn";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErr } from "../redux/modules/auth";
 
 /**
  * TODO:
@@ -11,17 +13,24 @@ import SignIn from "../components/SignIn";
 
 function AuthPage() {
   const [isRegister, setIsRegister] = useState(false);
+  const dispatch = useDispatch();
+  const { error, isLoading } = useSelector((state) => state.authReducer);
 
   const onSetRegister = () => {
-    setIsRegister((prev) => !prev);
+    dispatch(clearErr());
+    setIsRegister(!isRegister);
   };
 
   return (
     <Layout>
       {isRegister ? (
-        <SignUp onSetRegister={onSetRegister} />
+        <SignUp onSetRegister={onSetRegister} error={error} />
       ) : (
-        <SignIn onSetRegister={onSetRegister} />
+        <SignIn
+          onSetRegister={onSetRegister}
+          isLoading={isLoading}
+          error={error}
+        />
       )}
     </Layout>
   );
