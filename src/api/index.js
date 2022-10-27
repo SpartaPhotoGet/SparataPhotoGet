@@ -25,7 +25,7 @@ api.interceptors.response.use(
   function (response) {
     if (response.config.url === "member/login" && response.data.success) {
       localStorage.setItem("authorization", response.headers.authorization);
-      localStorage.setItem("refresh_token", response.headers.refresh_token);
+      localStorage.setItem("refresh_token", response.headers.refreZsh_token);
     }
     return response;
   },

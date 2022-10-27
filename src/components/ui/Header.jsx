@@ -10,10 +10,18 @@ function Header() {
     navigate(`../home`);
   };
 
+  const onClikcLogOut = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <HeaderContainer>
       <HomeGo onClick={onClickHome}>HangHaeBOX</HomeGo>
-      <BeforeBtn onClick={onClickHome}>이전으로</BeforeBtn>
+      <BtnWrapper>
+        <BeforeBtn onClick={onClikcLogOut}>로그아웃</BeforeBtn>
+        <BeforeBtn onClick={onClickHome}>이전으로</BeforeBtn>
+      </BtnWrapper>
     </HeaderContainer>
   );
 }
@@ -46,6 +54,8 @@ const HomeGo = styled.button`
     /* font-weight: bolder; */
   }
 `;
+
+const BtnWrapper = styled.div``;
 
 const BeforeBtn = styled.button`
   width: 110px;
