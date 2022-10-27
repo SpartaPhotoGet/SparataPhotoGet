@@ -88,7 +88,6 @@ function FolderPage() {
     }
   };
 
-
   const onDeleteFolder = () => {
     dispatch(__deleteFolder(feedId)).then(() => {
       navigate("/home");
@@ -268,7 +267,6 @@ const DeleteBtn = styled.button`
   }
 `;
 
-
 // 폴더 삭제 버튼
 const FolderDelBtn = styled.button`
   width: 120px;
@@ -287,7 +285,6 @@ const FolderDelBtn = styled.button`
   }
 `;
 
-
 // home으로 가기
 // const HomeGoBtn = styled.button`
 //   width: 120px;
@@ -305,7 +302,6 @@ const FolderDelBtn = styled.button`
 //     /* font-weight: bolder; */
 //   }
 // `;
-
 
 // 개인 사진
 const ImageBox = styled.div`

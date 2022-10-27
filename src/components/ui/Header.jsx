@@ -17,7 +17,7 @@ function Header() {
 
   return (
     <HeaderContainer>
-      <HomeGo onClick={onClickHome}>HangHaeBOX</HomeGo>
+      <HomeGo onClick={onClickHome}>HangHaeBox</HomeGo>
       <BtnWrapper>
         <BeforeBtn onClick={onClikcLogOut}>로그아웃</BeforeBtn>
         <BeforeBtn onClick={onClickHome}>이전으로</BeforeBtn>
