@@ -35,14 +35,6 @@ function FolderPage({}) {
     setTagT(newTags);
   }, [dispatch, feedId, newTags]);
 
-  // const onChange = (e) => {
-  //   const img = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("img", img);
-  //   console.log("잘되는건가", formData);
-  //   for (const keyValue of formData) console.log("키밸류", keyValue);
-  // };
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -78,19 +70,6 @@ function FolderPage({}) {
     };
     dispatch(__deleteImage(payload));
   };
-
-  const onCreate = () => {
-    const newPhoto = {
-      // id: Id,
-    };
-  };
-  // const deleteBtn = () => {
-  // const payload = {
-  //   id: contentId,
-  //   imageId
-  // };
-  //   dispatch(__deleteContent(con))
-  // }
 
   const tagsOnchange = (e) => {
     const value = e.target.value;

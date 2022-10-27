@@ -22,11 +22,12 @@ export default Header;
 
 const HeaderContainer = styled.div`
   width: 100%;
-  height: 50px;
+  height: 80px;
   background-color: ${defaultStyle.color.subColor};
   padding: 10px;
 
   display: flex;
+  align-items: center;
   justify-content: space-between;
 `;
 
