@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Layout from "../components/ui/Layout";
 import { FcCamera } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import defaultStyle from "../defaultStyle";
 import {
   __addContent,
@@ -16,6 +16,7 @@ import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
 
 function FolderPage({}) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { tags, photos } = useSelector((state) => state.imgReducer);
   const newTags = tags.join(", ");
@@ -96,8 +97,9 @@ function FolderPage({}) {
     setTagT(value);
   };
 
-  const onClickImage = (e) => {};
-
+  const onClickHome = () => {
+    navigate(`../home`);
+  };
   const onAddId = (e) => {
     console.log(e.target.checked);
     const check = e.target.checked;
@@ -116,6 +118,7 @@ function FolderPage({}) {
       <ImgContainer>
         <ButtonBox>
           <Buttons className="FolderPage">
+            <HomeGoBtn onClick={onClickHome}>이전으로</HomeGoBtn>
             <UpdateBtn onClick={handleClick}>추가하기</UpdateBtn>
             <MyModal
               isOpen={isOpen}
@@ -178,6 +181,7 @@ const ImgContainer = styled.div`
   border: 2px dashed ${defaultStyle.color.mainColor};
 
   width: 100%;
+
   height: 800px;
   margin: auto;
 
@@ -283,11 +287,30 @@ const DeleteBtn = styled.button`
   }
 `;
 
+// 폴더 삭제 버튼
 const FolderDelBtn = styled.button`
   width: 120px;
   height: 40px;
   font-size: 20px;
   margin-left: 15px;
+
+  border: 2px solid ${defaultStyle.color.subColor};
+  border-radius: 5px;
+  color: black;
+
+  &:focus {
+    border: 3px solid black;
+    border-color: ${defaultStyle.color.mainColor};
+    /* font-weight: bolder; */
+  }
+`;
+
+// home으로 가기
+const HomeGoBtn = styled.button`
+  width: 120px;
+  height: 40px;
+  font-size: 20px;
+  margin-right: 10px;
 
   border: 2px solid ${defaultStyle.color.subColor};
   border-radius: 5px;
