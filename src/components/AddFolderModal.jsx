@@ -11,19 +11,24 @@ function AddFolderModal({ onModalClick }) {
     folderName: "",
     date: "",
   });
+
   const [tagForm, onChangeTag, resetTag] = useInputs({
     tag: "",
   });
+
   const [tagArr, setTagArr] = useState([]);
+
   const dispatch = useDispatch();
 
   const onAddClick = () => {
     const { folderName, date } = form;
+
     const folder = {
       folderName,
       date,
       tag: tagArr,
     };
+
     setTagArr([]);
     dispatch(__addFolder(folder)).then(() => {
       window.location.reload();
@@ -37,6 +42,7 @@ function AddFolderModal({ onModalClick }) {
       resetTag();
     }
   };
+
   return (
     <ModalContainer>
       <InputBox>

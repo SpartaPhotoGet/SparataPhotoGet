@@ -12,7 +12,6 @@ import {
 import MyModal from "../modals/MyModal";
 import CSS from "../pages/Checkbox.css";
 import { __deleteFolder } from "../redux/modules/main";
-
 function FolderPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,8 +19,6 @@ function FolderPage() {
   const newTags = tags.join(", ");
   const params = useParams();
   const feedId = params.id;
-
-  console.log(photos);
 
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [tagT, setTagT] = useState("");
@@ -95,7 +92,9 @@ function FolderPage() {
     setTagT(value);
   };
 
-  const onClickImage = (e) => {};
+  const onClickHome = () => {
+    navigate(`../home`);
+  };
 
   const onAddId = (e) => {
     console.log(e.target.checked);
@@ -109,6 +108,7 @@ function FolderPage() {
       setIdArr(idArr.filter((boxId) => boxId !== id));
     }
   };
+
 
   const onDeleteFolder = () => {
     dispatch(__deleteFolder(feedId)).then(() => {
@@ -129,6 +129,7 @@ function FolderPage() {
               onCancel={handleModalCancel}
             />
             <DeleteBtn onClick={ClickDeleteBtn}>삭제하기</DeleteBtn>
+
             <FolderDelBtn onClick={onDeleteFolder}>폴더삭제</FolderDelBtn>
           </Buttons>
         </ButtonBox>
@@ -136,7 +137,6 @@ function FolderPage() {
           {photos?.map((item) => (
             <ImageBox>
               <input type="checkbox" id={item.id} onClick={onAddId} />
-
               <label for="{item.id}">
                 <img src={item.photos} />
               </label>
@@ -289,6 +289,8 @@ const DeleteBtn = styled.button`
   }
 `;
 
+
+// 폴더 삭제 버튼
 const FolderDelBtn = styled.button`
   width: 120px;
   height: 40px;
@@ -305,6 +307,26 @@ const FolderDelBtn = styled.button`
     /* font-weight: bolder; */
   }
 `;
+
+
+// home으로 가기
+// const HomeGoBtn = styled.button`
+//   width: 120px;
+//   height: 40px;
+//   font-size: 20px;
+//   margin-right: 10px;
+
+//   border: 2px solid ${defaultStyle.color.subColor};
+//   border-radius: 5px;
+//   color: black;
+
+//   &:focus {
+//     border: 3px solid black;
+//     border-color: ${defaultStyle.color.mainColor};
+//     /* font-weight: bolder; */
+//   }
+// `;
+
 
 // 개인 사진
 const ImageBox = styled.div`
