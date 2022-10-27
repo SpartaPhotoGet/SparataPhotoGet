@@ -17,7 +17,7 @@ function Header() {
 
   return (
     <HeaderContainer>
-      <HomeGo onClick={onClickHome}>HangHaeBOX</HomeGo>
+      <HomeGo onClick={onClickHome}>HangHaeBox</HomeGo>
       <BtnWrapper>
         <BeforeBtn onClick={onClikcLogOut}>로그아웃</BeforeBtn>
         <BeforeBtn onClick={onClickHome}>이전으로</BeforeBtn>
@@ -30,11 +30,12 @@ export default Header;
 
 const HeaderContainer = styled.div`
   width: 100%;
-  height: 50px;
+  height: 80px;
   background-color: ${defaultStyle.color.subColor};
   padding: 10px;
 
   display: flex;
+  align-items: center;
   justify-content: space-between;
 `;
 

@@ -39,7 +39,7 @@ function SignIn({ onSetRegister, isLoading, error }) {
   };
   return (
     <>
-      <Title>로그인</Title>
+      <Title>HangHaeBox</Title>
       <RegisterText onClick={onSetRegister}>회원가입!</RegisterText>
       <Input
         label="아이디"
